@@ -11,6 +11,7 @@
 #include "php_types.h"
 #include "php_define.h"
 #include "php_string.h"
+#include "php_array.h"
 
 /* {{{ void snowflake_test1()
  */
@@ -96,6 +97,7 @@ static const zend_function_entry snowflake_functions[] = {
 	PHP_FE(get_size,			arginfo_get_size)
 	PHP_FE(define_var,			NULL)
 	PHP_FE(str_concat,			arginfo_str_concat)
+	PHP_FE(array_concat,		arginfo_array_concat)
 	PHP_FE_END
 };
 /* }}} */
