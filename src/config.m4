@@ -79,5 +79,5 @@ if test "$PHP_SNOWFLAKE" != "no"; then
   dnl # In case of no dependencies
   AC_DEFINE(HAVE_SNOWFLAKE, 1, [ Have snowflake support ])
 
-  PHP_NEW_EXTENSION(snowflake, snowflake.c param.c php_types.c php_define.c php_string.c, $ext_shared)
+  PHP_NEW_EXTENSION(snowflake, snowflake.c php_parameter.c php_types.c php_define.c php_string.c, $ext_shared)
 fi

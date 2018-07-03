@@ -17,3 +17,11 @@ var_dump($minhoObj);
 ?>
 --EXPECT--
 string(13) "www.iminho.me"
+array(2) {
+  [0]=>
+  int(15021)
+  ["minho_key"]=>
+  string(12) "my is minho!"
+}
+object(MinhoObject)#1 (0) {
+}

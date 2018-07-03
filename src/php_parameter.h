@@ -1,5 +1,5 @@
-#ifndef PARAM_H
-#define PARAM_H
+#ifndef PHP_PARAMETER_H
+#define PHP_PARAMETER_H
 //在头文件中声明方法，这样可以在snowflake.c文件中公开该方法
 PHP_FUNCTION(default_value);
 

@@ -7,7 +7,7 @@
 #include "php.h"
 #include "ext/standard/info.h"
 #include "php_snowflake.h"
-#include "param.h"
+#include "php_parameter.h"
 #include "php_types.h"
 #include "php_define.h"
 #include "php_string.h"
