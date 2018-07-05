@@ -15,7 +15,12 @@ dnl Otherwise use enable:
 PHP_ARG_ENABLE(snowflake, whether to enable snowflake support,
 Make sure that the comment is aligned:
 [  --enable-snowflake          Enable snowflake support], no)
-
+if test -z "$PHP_DEBUG"; then 
+  	AC_ARG_ENABLE(debug,
+  	[ --enable-debug      compile with debugging symbols],[
+    	PHP_DEBUG=$enableval
+  	],[ PHP_DEBUG=no])
+fi
 if test "$PHP_SNOWFLAKE" != "no"; then
   dnl Write more examples of tests here...
 
@@ -78,6 +83,6 @@ if test "$PHP_SNOWFLAKE" != "no"; then
 
   dnl # In case of no dependencies
   AC_DEFINE(HAVE_SNOWFLAKE, 1, [ Have snowflake support ])
-
-  PHP_NEW_EXTENSION(snowflake, snowflake.c php_parameter.c php_types.c php_define.c php_string.c php_array.c php_const.c, $ext_shared)
+  
+  PHP_NEW_EXTENSION(snowflake, snowflake.c php_parameter.c php_string.c php_const.c php_types.c php_array.c php_define.c, $ext_shared)
 fi

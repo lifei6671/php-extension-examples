@@ -8,8 +8,8 @@
 
 PHP_FUNCTION(array_concat)
 {
-    zval *arr,*prefix,*entry,*prefix_entry,value;
-    zend_string *string_key,*result;
+    zval *arr, *prefix, *entry, *prefix_entry, value;
+    zend_string *string_key, *result;
     zend_ulong num_key;
 
 #ifndef FAST_ZPP
@@ -22,15 +22,18 @@ PHP_FUNCTION(array_concat)
         Z_PARAM_ZVAL(prefix)
     ZEND_PARSE_PARAMETERS_END();
 #endif
+
     array_init_size(return_value,zend_hash_num_elements(Z_ARRVAL_P(arr)));
+
+    
     //使用内置宏遍历数组
-    ZEND_HASH_FOREACH_KEY_VAL(Z_ARR_P(arr),num_key,string_key,entry)
+    ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(arr),num_key,string_key,entry){
         //判断是否存在字符串的键，在prefix数组中是否存在这个键
-        if(string_key && zend_hash_exists(Z_ARR_P(prefix),string_key)){
+        if(string_key && zend_hash_exists(Z_ARRVAL_P(prefix),string_key)){
             //如果arr数组中的值是字符串
             if(Z_TYPE_P(entry) == IS_STRING){
                 //从prefix数组中查找指定键的值
-                prefix_entry = zend_hash_find(Z_ARR_P(prefix),string_key);
+                prefix_entry = zend_hash_find(Z_ARRVAL_P(prefix),string_key);
                 if(Z_TYPE_P(prefix_entry) == IS_STRING){
                     //将两个值拼接
                     result = strpprintf(0,"%s%s",Z_STRVAL_P(prefix_entry),Z_STRVAL_P(entry));
@@ -40,11 +43,11 @@ PHP_FUNCTION(array_concat)
                     zend_hash_update(Z_ARRVAL_P(return_value),string_key,&value);
                 }
             }
-        }else if(string_key == NULL && zend_hash_index_exists(Z_ARR_P(prefix),num_key)){
+        }else if(string_key == NULL && zend_hash_index_exists(Z_ARRVAL_P(prefix),num_key)){
             //如果存在数字类型的索引
             if(Z_TYPE_P(entry) == IS_STRING){
                 //从prefix数组中查找指定键的值
-                prefix_entry = zend_hash_index_find(Z_ARR_P(prefix),num_key);
+                prefix_entry = zend_hash_index_find(Z_ARRVAL_P(prefix),num_key);
                 if(Z_TYPE_P(prefix_entry) == IS_STRING){
                     //将两个值拼接
                     result = strpprintf(0,"%s%s",Z_STRVAL_P(prefix_entry),Z_STRVAL_P(entry));
@@ -63,5 +66,32 @@ PHP_FUNCTION(array_concat)
              zend_hash_index_update(Z_ARRVAL_P(return_value), num_key, entry);
             zval_add_ref(entry);
         }
-    ZEND_HASH_FOREACH_END();
+    }ZEND_HASH_FOREACH_END();
+
+/*
+        ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(arr), num_key, string_key, entry) {
+        if (string_key && zend_hash_exists(Z_ARRVAL_P(prefix), string_key)) {
+            prefix_entry = zend_hash_find(Z_ARRVAL_P(prefix), string_key);
+            if (Z_TYPE_P(entry) == IS_STRING && prefix_entry != NULL && Z_TYPE_P(prefix_entry) == IS_STRING) {
+                result = strpprintf(0, "%s%s", Z_STRVAL_P(prefix_entry), Z_STRVAL_P(entry));
+                ZVAL_STR(&value, result);
+                zend_hash_update(Z_ARRVAL_P(return_value), string_key, &value);
+            }   
+        } else if (string_key == NULL && zend_hash_index_exists(Z_ARRVAL_P(prefix), num_key)){
+            prefix_entry = zend_hash_index_find(Z_ARRVAL_P(prefix), num_key);
+            if (Z_TYPE_P(entry) == IS_STRING && prefix_entry != NULL && Z_TYPE_P(prefix_entry) == IS_STRING) {
+                result = strpprintf(0, "%s%s", Z_STRVAL_P(prefix_entry), Z_STRVAL_P(entry));
+                ZVAL_STR(&value, result);
+                zend_hash_index_update(Z_ARRVAL_P(return_value), num_key, &value);
+            }
+        } else if (string_key) {
+            zend_hash_update(Z_ARRVAL_P(return_value), string_key, entry);
+            zval_add_ref(entry);
+        } else  {
+            zend_hash_index_update(Z_ARRVAL_P(return_value), num_key, entry);
+            zval_add_ref(entry);
+        }
+    }ZEND_HASH_FOREACH_END();
+    */
+ 
 }

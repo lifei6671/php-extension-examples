@@ -7,12 +7,15 @@
 #include "php.h"
 #include "ext/standard/info.h"
 #include "php_snowflake.h"
+
 #include "php_parameter.h"
+
 #include "php_types.h"
 #include "php_define.h"
 #include "php_string.h"
 #include "php_array.h"
 #include "php_const.h"
+
 
 /* {{{ void snowflake_test1()
  */
@@ -52,7 +55,12 @@ PHP_FUNCTION(say)
 PHP_MINIT_FUNCTION(snowflake)
 {
 	//这里调用了在php_const.h中声明的模块初始化需要执行的方法
-	PHP_MINIT(php_const)(INIT_FUNC_ARGS_PASSTHRU);
+	//PHP_MINIT(php_const)(INIT_FUNC_ARGS_PASSTHRU);
+	return SUCCESS;
+}
+PHP_MSHUTDOWN_FUNCTION(snowflake)
+{
+	//PHP_MSHUTDOWN(php_const)(SHUTDOWN_FUNC_ARGS_PASSTHRU);
 	return SUCCESS;
 }
 /* {{{ PHP_RINIT_FUNCTION
@@ -112,7 +120,7 @@ zend_module_entry snowflake_module_entry = {
 	"snowflake",					/* Extension name */
 	snowflake_functions,			/* zend_function_entry */
 	PHP_MINIT(snowflake),			/* PHP_MINIT - Module initialization */
-	NULL,							/* PHP_MSHUTDOWN - Module shutdown */
+	PHP_MSHUTDOWN(snowflake),							/* PHP_MSHUTDOWN - Module shutdown */
 	PHP_RINIT(snowflake),			/* PHP_RINIT - Request initialization */
 	NULL,							/* PHP_RSHUTDOWN - Request shutdown */
 	PHP_MINFO(snowflake),			/* PHP_MINFO - Module info */
