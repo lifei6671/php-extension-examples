@@ -50,17 +50,19 @@ PHP_FUNCTION(say)
 {
 	zend_string *str;
 	str = strpprintf(0,"Hello World!");
+
 	RETURN_STR(str);
 }
+
 PHP_MINIT_FUNCTION(snowflake)
 {
 	//这里调用了在php_const.h中声明的模块初始化需要执行的方法
-	//PHP_MINIT(php_const)(INIT_FUNC_ARGS_PASSTHRU);
+	PHP_MINIT(php_const)(INIT_FUNC_ARGS_PASSTHRU);
 	return SUCCESS;
 }
 PHP_MSHUTDOWN_FUNCTION(snowflake)
 {
-	//PHP_MSHUTDOWN(php_const)(SHUTDOWN_FUNC_ARGS_PASSTHRU);
+	PHP_MSHUTDOWN(php_const)(SHUTDOWN_FUNC_ARGS_PASSTHRU);
 	return SUCCESS;
 }
 /* {{{ PHP_RINIT_FUNCTION

@@ -9,7 +9,6 @@ if (!extension_loaded('snowflake')) {
 --FILE--
 <?php 
 var_dump(default_value("int",10));
-sleep(10);
 ?>
 --EXPECT--
 string(12) "Hello World!"

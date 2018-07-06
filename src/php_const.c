@@ -21,7 +21,7 @@ void minho_hash_destroy(HashTable *ht)
             }
             switch(Z_TYPE_P(element)){
                 //如果是字符串，则直接释放掉
-                case IS_STRING: free(element);break;
+                case IS_STRING: free(Z_PTR_P(element));break;
                 //如果是数组，递归调用释放
                 case IS_ARRAY: minho_hash_destroy(Z_ARRVAL_P(element));break;
             }
